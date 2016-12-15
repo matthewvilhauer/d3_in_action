@@ -8,6 +8,7 @@ var express = require('express'),
 // serve static files from key folders
 app.use('/scripts', express.static('scripts'));
 app.use('/data', express.static('data'));
+app.use('/styles', express.static('styles'));
 
 /**********
  * ROUTES *
