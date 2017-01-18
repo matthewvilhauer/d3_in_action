@@ -71,11 +71,27 @@ function overallTeamViz(incomingData) {
     }
 
     teamG.on("mouseover", highlightRegion);
+    teamG.on("mouseout", unHighlight);
 
-    function highlightRegion(d) {
+    function highlightRegion(d,i) {
         d3.selectAll("g.overallG").select("circle")
             .style("fill", function(p) {
                 return p.region == d.region ? "red" : "grey";
             });
+
+        d3.select(this).select("text").classed("highlight", true).attr("y", 10).style("font-size", "30px");
+        d3.selectAll("g.overallG").select("circle")
+            .each(function(p, i) {
+                p.region == d.region ?
+                    d3.select(this).classed("active", true) :
+                    d3.select(this).classed("inactive", true);
+            });
+        this.parentElement.appendChild(this);
+    }
+
+    function unHighlight() {
+        d3.selectAll("g.overallG").select("circle").attr("class", "").style("fill", "pink");
+        d3.selectAll("g.overallG").select("text")
+        .classed("highlight", false).attr("y", 30).style("font-size", "10px");
     }
 }
