@@ -55,28 +55,6 @@ function overallTeamViz(incomingData) {
         .on("click", buttonClick)
         .html(function(d) {return d});
 
-    // function buttonClick(datapoint) {
-    //     var maxValue = d3.max(incomingData, function(d) {
-    //         return parseFloat(d[datapoint]);
-    //     });
-    //
-    //     var radiusScale = d3.scale.linear()
-    //         .domain([0, maxValue])
-    //         .range([2, 20]);
-    //
-    //     var ybRamp = d3.scale.linear()
-    //         .interpolate(d3.interpolateHcl)
-    //         .domain([0,maxValue]).range(["yellow", "blue"]);
-    //
-    //     d3.selectAll("g.overallG").select("circle").transition().duration(1000)
-    //         .attr("r", function(d) {
-    //             return radiusScale(d[datapoint]);
-    //         })
-    //         .style("fill", function(d) {
-    //             return ybRamp(d[datapoint]);
-    //         })
-    // }
-
     function buttonClick(datapoint) {
         var maxValue = d3.max(incomingData, function(el) {
             return parseFloat(el[datapoint ]);
@@ -108,6 +86,19 @@ function overallTeamViz(incomingData) {
             .style("fill", function(p) {return p.region == d.region ?
             teamColor.darker(.75) : teamColor.brighter(.5)});
         this.parentElement.appendChild(this);
+
+        //How to add images to circles on highlight
+        // d3.selectAll("g.overallG").insert("image", "text")
+        //     .attr("xlink:href", function(d) {
+        //         return "images/" + d.team + ".png";
+        //     })
+        //     .attr("width", "45px").attr("height", "20px").attr("x", "-22")
+        //     .attr("y", "-10");
+
+        d3.selectAll("td.data").data(d3.values(d))
+            .html(function(p) {
+                return p;
+            });
     }
 
     function unHighlight() {
@@ -115,4 +106,8 @@ function overallTeamViz(incomingData) {
         d3.selectAll("g.overallG").select("text")
         .classed("highlight", false).attr("y", 30).style("font-size", "10px");
     }
+
+    d3.text("/resources/modal.html", function(data) {
+        d3.select("body").append("div").attr("id", "modal").html(data);
+    });
 }
