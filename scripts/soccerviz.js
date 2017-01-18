@@ -37,4 +37,30 @@ function overallTeamViz(incomingData) {
         .text(function(d) {
             return d.team
         });
+
+    //Build buttons based on data thats numerical - so we want all attributes except team nad region
+    var dataKeys = d3.keys(incomingData[0]).filter(function(el) {
+        return el !== "team" && el !== "region";
+    });
+
+    d3.select("#controls").selectAll("button.teams")
+        .data(dataKeys).enter()
+        .append("button")
+        .on("click", buttonClick)
+        .html(function(d) {return d});
+
+    function buttonClick(datapoint) {
+        var maxValue = d3.max(incomingData, function(d) {
+            return parseFloat(d[datapoint]);
+        });
+
+        var radiusScale = d3.scale.linear()
+            .domain([0, maxValue])
+            .range([2, 20]);
+
+        d3.selectAll("g.overallG").select("circle")
+            .attr("r", function(d) {
+                return radiusScale(d[datapoint]);
+            });
+    }
 }
