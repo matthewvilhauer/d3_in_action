@@ -63,4 +63,13 @@ function overallTeamViz(incomingData) {
                 return radiusScale(d[datapoint]);
             });
     }
+
+    teamG.on("mouseover", highlightRegion);
+
+    function highlightRegion(d) {
+        d3.selectAll("g.overallG").select("circle")
+            .style("fill", function(p) {
+                return p.region == d.region ? "red" : "grey";
+            });
+    }
 }
