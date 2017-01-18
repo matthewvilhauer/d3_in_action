@@ -55,18 +55,45 @@ function overallTeamViz(incomingData) {
         .on("click", buttonClick)
         .html(function(d) {return d});
 
+    // function buttonClick(datapoint) {
+    //     var maxValue = d3.max(incomingData, function(d) {
+    //         return parseFloat(d[datapoint]);
+    //     });
+    //
+    //     var radiusScale = d3.scale.linear()
+    //         .domain([0, maxValue])
+    //         .range([2, 20]);
+    //
+    //     var ybRamp = d3.scale.linear()
+    //         .interpolate(d3.interpolateHcl)
+    //         .domain([0,maxValue]).range(["yellow", "blue"]);
+    //
+    //     d3.selectAll("g.overallG").select("circle").transition().duration(1000)
+    //         .attr("r", function(d) {
+    //             return radiusScale(d[datapoint]);
+    //         })
+    //         .style("fill", function(d) {
+    //             return ybRamp(d[datapoint]);
+    //         })
+    // }
+
     function buttonClick(datapoint) {
-        var maxValue = d3.max(incomingData, function(d) {
-            return parseFloat(d[datapoint]);
+        var maxValue = d3.max(incomingData, function(el) {
+            return parseFloat(el[datapoint ]);
         });
+        var tenColorScale = d3.scale.category10(
+            ["UEFA", "CONMEBOL", "CAF",  "AFC"]);
 
-        var radiusScale = d3.scale.linear()
-            .domain([0, maxValue])
-            .range([2, 20]);
+        var radiusScale = d3.scale.linear().domain([0,maxValue]).range([2,20]);
 
-        d3.selectAll("g.overallG").select("circle").transition().duration(1000)
-            .attr("r", function(d) {
-                return radiusScale(d[datapoint]);
+        d3.selectAll("g.overallG")
+            .select("circle")
+            .transition().duration(1000)
+            .style("fill", function(p) {
+                return tenColorScale(p.region)
+            })
+            .attr("r", function(p) {
+                return radiusScale(p[datapoint ])
             });
     }
 
@@ -74,18 +101,12 @@ function overallTeamViz(incomingData) {
     teamG.on("mouseout", unHighlight);
 
     function highlightRegion(d,i) {
-        d3.selectAll("g.overallG").select("circle")
-            .style("fill", function(p) {
-                return p.region == d.region ? "red" : "grey";
-            });
+        var teamColor = d3.rgb("pink");
 
-        d3.select(this).select("text").classed("highlight", true).attr("y", 10).style("font-size", "30px");
+        d3.select(this).select("text").classed("highlight", true).attr("y", 10).style("font-size", "20px");
         d3.selectAll("g.overallG").select("circle")
-            .each(function(p, i) {
-                p.region == d.region ?
-                    d3.select(this).classed("active", true) :
-                    d3.select(this).classed("inactive", true);
-            });
+            .style("fill", function(p) {return p.region == d.region ?
+            teamColor.darker(.75) : teamColor.brighter(.5)});
         this.parentElement.appendChild(this);
     }
 
