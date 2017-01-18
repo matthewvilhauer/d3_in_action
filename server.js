@@ -17,6 +17,11 @@ app.get('/d3ia', function homepage (req, res) {
   res.sendFile(__dirname + '/d3ia.html');
 });
 
+app.get('/d3ia2', function homepage (req, res) {
+  res.sendFile(__dirname + '/d3ia2.html');
+});
+
+
 /**********
  * SERVER *
  **********/
