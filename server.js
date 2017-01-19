@@ -9,12 +9,17 @@ var express = require('express'),
 app.use('/scripts', express.static('scripts'));
 app.use('/data', express.static('data'));
 app.use('/styles', express.static('styles'));
+app.use('/resources', express.static('resources'));
 
 /**********
  * ROUTES *
  **********/
 app.get('/d3ia', function homepage (req, res) {
   res.sendFile(__dirname + '/d3ia.html');
+});
+
+app.get('/d3ia2', function homepage (req, res) {
+  res.sendFile(__dirname + '/d3ia2.html');
 });
 
 /**********
