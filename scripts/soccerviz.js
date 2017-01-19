@@ -5,7 +5,7 @@ function createSoccerViz() {
 }
 
 function overallTeamViz(incomingData) {
-    d3.select("svg")
+    d3.select("svg.mainviz")
     .append("g")
     .attr("id", "teamsG")
     .attr("transform", "translate(50,300)")
@@ -110,4 +110,14 @@ function overallTeamViz(incomingData) {
     d3.text("/resources/modal.html", function(data) {
         d3.select("body").append("div").attr("id", "modal").html(data);
     });
+
+    d3.html("resources/noun_1907_cc.svg", loadSVG);
+
+    function loadSVG(svgData) {
+        d3.select(svgData).selectAll("path").each(function() {
+            d3.select("svg").node().appendChild(this);
+        });
+        d3.selectAll("path").attr("transform", "translate(20,20)");
+    }
+
 }
