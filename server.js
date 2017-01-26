@@ -22,6 +22,9 @@ app.get('/d3ia2', function homepage (req, res) {
   res.sendFile(__dirname + '/d3ia2.html');
 });
 
+app.get('/scatterplotaxis', function homepage (req, res) {
+  res.sendFile(__dirname + '/scatterplotaxis.html');
+});
 /**********
  * SERVER *
  **********/
