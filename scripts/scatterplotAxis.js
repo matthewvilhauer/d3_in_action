@@ -18,3 +18,10 @@ d3.select("svg").selectAll("circle")
           }).attr("cy", function(d) {
                  return yScale(d.friends);
           });
+
+
+var yAxis = d3.svg.axis().scale(yScale).orient("right");
+d3.select("svg").append("g").attr("id", "yAxisG").call(yAxis);
+var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+d3.select("svg").append("g").attr("id", "xAxisG").call(xAxis);
+
